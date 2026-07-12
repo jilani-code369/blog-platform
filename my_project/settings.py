@@ -39,6 +39,8 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'blog_app',
     'users',
+    'rest_framework',
+    
 ]
 
 MIDDLEWARE = [
@@ -86,15 +88,17 @@ WSGI_APPLICATION = 'my_project.wsgi.application'
 
 # Postgres integration
 DATABASES = {
-    'default' : {
-			 'ENGINE' : 'django.db.backends.postgresql',
-			 'NAME' : 'blog2',
-			 'USER' : 'postgres',
-			 'PASSWORD' : '123',
-			 'HOST' : 'localhost',
-			 'PORT' : '5432'
-		 }
-   }
+    "default" : {
+        "ENGINE" : "django.db.backends.postgresql",
+        "NAME" : "blog2",
+        
+        "USER" : "jilani",
+        "PASSWORD" : "123",
+    
+        "HOST" : "localhost",
+        "PORT" : 5432
+    }
+}
 
 
 

@@ -57,7 +57,7 @@ class CommentAdmin(admin.ModelAdmin):
 
 
 # PostTagJunction admin customization 
-@admin.register(PosTagJunction)
+@admin.register(PostTag)
 class PosTagJunctiontAdmin(admin.ModelAdmin):
     list_display = ['id', 'tag', 'post']
     list_display_links = ['id', 'tag', 'post']
