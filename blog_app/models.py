@@ -7,14 +7,14 @@ User = get_user_model()     # to automatically fetch the active user of the proj
 
 # Category model 
 class Category(models.Model):
-    name = models.CharField(max_length = 20)
+    name = models.CharField(max_length = 20, unique=True)
     def __str__(self):          # it is a dunder function which displays string instead of objects in admin panel
         return (self.name)
 
 
 # Tag model 
 class Tag(models.Model):
-    name =  models.CharField(max_length = 20)
+    name =  models.CharField(max_length = 20, unique = True)
     def __str__(self):
         return (self.name)
     
@@ -48,6 +48,6 @@ class Comment(models.Model):
 
 # PostTag junction model             # for many-to-many relation with post and tag
 class PostTag(models.Model):                         
-    tag = models.ForeignKey(Tag, on_delete = models.CASCADE)
+    tag = models.ForeignKey(Tag, on_delete = models.SET_NULL, null = True)
     post = models.ForeignKey(Post, on_delete= models.CASCADE)
     
