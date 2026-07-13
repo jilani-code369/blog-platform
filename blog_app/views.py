@@ -1,5 +1,7 @@
 from django.shortcuts import render
 from rest_framework.viewsets import ModelViewSet
+from rest_framework.response import Response
+from rest_framework import status
 
 from .models import *
 from .serializers import *
@@ -11,7 +13,13 @@ from .serializers import *
 class CategoryViews(ModelViewSet):
     queryset = Category.objects.all()
     serializer_class = CategorySerializer
-
+    
+    #override 'destroy()' method to handle deletion of protected relationship
+    def destroy(self, request, *args, **kwargs):
+        category = self.get_object()
+        if PostTag.objects.filter(post__category = category).exists():
+            return Response({"error":"Protected! Category cannot be deleted. Related to PostTag model."}, status = status.HTTP_400_BAD_REQUEST)
+        return Response({"detail":"Category deleted successfully."}, status = status.HTTP_204_NO_CONTENT)
 
 
 # Tag views
