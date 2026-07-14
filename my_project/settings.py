@@ -140,5 +140,8 @@ USE_TZ = True
 STATIC_URL = 'static/'
 
 
+#Custom user: 
 AUTH_USER_MODEL = 'users.User'
+
+
 

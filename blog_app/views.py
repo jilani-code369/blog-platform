@@ -5,6 +5,7 @@ from rest_framework import status
 
 from .models import *
 from .serializers import *
+from .pagination import *
 
 # Create your views here.
 
@@ -13,6 +14,7 @@ from .serializers import *
 class CategoryViews(ModelViewSet):
     queryset = Category.objects.all()
     serializer_class = CategorySerializer
+    pagination_class = PaginationOfTen      #pagination 
     
     #override 'destroy()' method to handle deletion of protected relationship
     def destroy(self, request, *args, **kwargs):
@@ -26,13 +28,14 @@ class CategoryViews(ModelViewSet):
 class TagViews(ModelViewSet):
     queryset = Tag.objects.all()
     serializer_class = TagSerializer
-    
+    pagination_class = PaginationOfTen
     
     
 # Post views
 class PostViews(ModelViewSet):
     queryset = Post.objects.all()
     serializer_class = PostSerializer
+    pagination_class = PaginationOfFifty
     
     
     
@@ -40,6 +43,7 @@ class PostViews(ModelViewSet):
 class CommentViews(ModelViewSet):
     queryset = Comment.objects.all()
     serializer_class = CommentSerializer
+    pagination_class = PaginationOfTwenty
     
     
     
@@ -47,6 +51,7 @@ class CommentViews(ModelViewSet):
 class PostTagViews(ModelViewSet):
     queryset = PostTag.objects.all()
     serializer_class = PostTagSerializer
+    pagination_class = PaginationOfTen
     
 
 
@@ -54,3 +59,4 @@ class PostTagViews(ModelViewSet):
 class UserViews(ModelViewSet):
     queryset = User.objects.all()
     serializer_class = UserSerializer
+    pagination_class = PaginationOfTen
