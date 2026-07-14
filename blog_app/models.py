@@ -27,7 +27,7 @@ class Post(models.Model):
     description = models.TextField()
     category =  models.ForeignKey(Category, on_delete = models.PROTECT)
     tags = models.ForeignKey(Tag, on_delete = models.SET_NULL, blank=True, null = True)
-    created_at = models.DateTimeField(auto_now_add= True)       # 'auto_now_add'  set the current data/time only once, it cannot be changed
+    published_date = models.DateTimeField(auto_now_add= True)       # 'auto_now_add'  set the current data/time only once, it cannot be changed
     updated_at = models.DateTimeField(auto_now = True)          # 'auto_now'  sets the current data/time but it changes after updating the table
     def __str__(self):
         return (self.title)
@@ -40,7 +40,7 @@ class Comment(models.Model):
     user = models.ForeignKey(User, on_delete = models.CASCADE)  
     comment = models.TextField()
     parent_comment = models.ForeignKey('self', on_delete = models.CASCADE, related_name = 'replies', blank=True, null = True)    # 'self' is used to point to own class for nesting comments   # we can also use 'Category' instead of 'self' but in quotes
-    created_at = models.DateTimeField(auto_now_add = True)
+    commented_date = models.DateTimeField(auto_now_add = True)
     updated_at = models.DateTimeField(auto_now = True)
     def __str__(self):
         return (self.comment)

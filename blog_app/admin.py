@@ -33,7 +33,7 @@ class CategoryTag(admin.ModelAdmin):
 # Post admin customization 
 @admin.register(Post)
 class PostAdmin(admin.ModelAdmin):
-    list_display = ['id',  'title', 'author','description', 'category', 'tags', 'created_at', 'updated_at']
+    list_display = ['id',  'title', 'author','description', 'category', 'tags', 'published_date', 'updated_at']
     list_display_links = ['id', 'author', 'title']
     
     list_filter = ['author', 'category', 'tags']
@@ -46,7 +46,7 @@ class PostAdmin(admin.ModelAdmin):
 # Comment admin customization 
 @admin.register(Comment)
 class CommentAdmin(admin.ModelAdmin):
-    list_display = ['id', 'user', 'post', 'comment', 'parent_comment', 'created_at', 'updated_at']
+    list_display = ['id', 'user', 'post', 'comment', 'parent_comment', 'commented_date', 'updated_at']
     list_display_links = ['id', 'user', 'post']
     
     list_filter = ['user']
