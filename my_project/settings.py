@@ -41,6 +41,7 @@ INSTALLED_APPS = [
     'users',
     'rest_framework',
     'django_filters',
+    'debug_toolbar',
     
 ]
 
@@ -52,6 +53,7 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    "debug_toolbar.middleware.DebugToolbarMiddleware",
 ]
 
 ROOT_URLCONF = 'my_project.urls'
@@ -98,6 +100,7 @@ DATABASES = {
     
         "HOST" : "localhost",
         "PORT" : 5432
+        
     }
 }
 
@@ -146,3 +149,6 @@ AUTH_USER_MODEL = 'users.User'
 
 
 
+INTERNAL_IPS = [
+    "127.0.0.1",
+]

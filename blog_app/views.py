@@ -51,7 +51,7 @@ class TagViews(ModelViewSet):
     
 # Post views
 class PostViews(ModelViewSet):
-    queryset = Post.objects.all()
+    queryset = Post.objects.select_related('category').all()          # 'select_related('field_name')' join the foreign key table to optimize query on the db
     serializer_class = PostSerializer
     
     #Pagination:
@@ -66,7 +66,7 @@ class PostViews(ModelViewSet):
     
 # Comment views
 class CommentViews(ModelViewSet):
-    queryset = Comment.objects.all()
+    queryset = Comment.objects.select_related('post').all()     # 'select_related() is used for optimization
     serializer_class = CommentSerializer
     
     #Pagination:
