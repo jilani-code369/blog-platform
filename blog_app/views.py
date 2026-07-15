@@ -2,8 +2,9 @@ from django.shortcuts import render
 from rest_framework.viewsets import ModelViewSet
 from rest_framework.response import Response
 from rest_framework import status
-from rest_framework.filters import SearchFilter, OrderingFilter
+from rest_framework.filters import SearchFilter
 from django_filters.rest_framework import DjangoFilterBackend
+from rest_framework.permissions import IsAdminUser, IsAuthenticated, IsAuthenticatedOrReadOnly
 
 
 from .models import *
@@ -26,6 +27,9 @@ class CategoryViews(ModelViewSet):
     filter_backends = [SearchFilter]
     search_fields = ['name']
     
+    #Persmission
+    permission_classes = [IsAdminUser]
+    
     #override 'destroy()' method to handle deletion of protected relationship
     def destroy(self, request, *args, **kwargs):
         category = self.get_object()
@@ -45,6 +49,9 @@ class TagViews(ModelViewSet):
     #Filtering:
     filter_backends = [SearchFilter]
     search_fields = ['name']
+    
+    #Persmission
+    permission_classes = [IsAdminUser]
 
     
     
@@ -62,6 +69,9 @@ class PostViews(ModelViewSet):
     search_fields = ['title']
     filterset_class = PostFilter
     
+    #Persmission
+    permission_classes = [IsAuthenticatedOrReadOnly]
+    
     
     
 # Comment views
@@ -77,6 +87,9 @@ class CommentViews(ModelViewSet):
     search_fields = ['comment']
     filterset_class = CommentFilter
     
+    #Persmission
+    permission_classes = [IsAuthenticatedOrReadOnly]
+    
     
 # PostTag views
 class PostTagViews(ModelViewSet):
@@ -89,6 +102,9 @@ class PostTagViews(ModelViewSet):
     #Filtering:
     filter_backends = [DjangoFilterBackend]
     filterset_class = PostTagFilter
+    
+    #Persmission
+    permission_classes = [IsAuthenticated]
 
 
 # User views
@@ -103,4 +119,6 @@ class UserViews(ModelViewSet):
     filter_backends = [SearchFilter]
     search_fields = ['username']
     
+    #Persmission
+    permission_classes = [IsAuthenticated]
     
