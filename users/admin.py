@@ -8,7 +8,7 @@ from .models import *
 
 @admin.register(User)
 class UserAdmin(UA):         # 'UserAdmin' is used bec it hash the password unlike 'MOdelAdmin'
-    list_display = ['id', 'username', 'first_name', 'last_name', 'email', 'role', 'is_staff', 'is_active', 'is_superuser', 'last_login', 'date_joined']
+    list_display = ['id', 'username', 'first_name', 'last_name', 'email', 'role',  'is_active', 'is_staff', 'is_superuser', 'last_login', 'date_joined']
     list_display_links = ['id', 'username']
     list_editable = ['is_staff', 'is_active', 'is_superuser']  # tell which column you want to edit from the admin panel only without opening the editing page
     
