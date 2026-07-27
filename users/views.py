@@ -1,56 +1,63 @@
 from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework import status
+from rest_framework.authtoken.models import Token 
+from django.contrib.auth import authenticate
+from rest_framework import serializers
 from rest_framework.permissions import IsAuthenticated
-from rest_framework.authtoken.models import Token
-from .serializers import RegisterSerializer, LoginSerializer
-from django.contrib.auth import get_user_model
+
+from .serializers import *
 
 
 
-User = get_user_model()
+# Registeration API
 class RegisterAPI(APIView):
-    
     def post(self, request):
-        serializer = RegisterSerializer(data=request.data)
-        serializer.is_valid(raise_exception=True)
+        serializer = RegisterSerializer(data = request.data)
+        serializer.is_valid(raise_exception = True)
+        user = serializer.save()                                            # serializer.save() return the model object
+        token, created = Token.objects.get_or_create(user = user)           # in 'user = user', the left side is a keyworked argument and right side user is the user model object/instance as its value 
         
-        user = serializer.save()
-        token, _ = Token.objects.get_or_create(user=user)
-
         return Response({
-            "message": "User registered successfully!",
-            "id": user.id,
-            "username": user.username,
-            "email": user.email,
-            "token": token.key
-        }, status=status.HTTP_201_CREATED)
+            "message":"Registeration successful. ",
+            "detail": {
+                "id":user.id,
+                "username":user.username,
+                "email":user.email,
+                "password":user.password,
+                "token":token.key
+            }
+            
+        }, status = status.HTTP_201_CREATED)
+        
+        
 
-
+ # Login API:
+ 
 class LoginAPI(APIView):
     def post(self, request):
-        serializer = LoginSerializer(data=request.data)
-        serializer.is_valid(raise_exception=True)
+       serializer = LoginSerializer(data = request.data)
+       serializer.is_valid(raise_exception = True)
+    
+       user = serializer.validated_data['user']                                 # get the user object from the validated_data
+       token, created = Token.objects.get_or_create(user = user)                # pass the user object to create token 
+       
+       return Response({
+           "message":"Login successful",
+           "detail":{
+               "token":token.key
+           }
+       })
 
-        user = serializer.validated_data['user']
-        token, created = Token.objects.get_or_create(user=user)
-
-        return Response({
-            "message": "Login successful!",
-            "id": user.id,
-            "username": user.username,
-            "email": user.email,
-            "token": token.key
-        }, status=status.HTTP_200_OK)
 
 
+# Logout API
 class LogoutAPI(APIView):
     permission_classes = [IsAuthenticated]
 
     def post(self, request):
-    
-        request.user.auth_token.delete()
-        
+        request.user.auth_token.delete()                                   # delete the token from the db
+
         return Response({
-            "message": "Logged out successfully!"
+            "message": "Logout successful"
         }, status=status.HTTP_200_OK)

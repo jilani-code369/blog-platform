@@ -1,42 +1,44 @@
-# serializers.py
+
+from rest_framework.serializers import ModelSerializer
 from rest_framework import serializers
-from .models import User
+from django.contrib.auth import get_user_model
 from django.contrib.auth import authenticate
 
 
-class RegisterSerializer(serializers.ModelSerializer):
+User = get_user_model()
 
+
+# Register Serializer:
+class RegisterSerializer(ModelSerializer):
     class Meta:
         model = User
         fields = ['id', 'username', 'email', 'password']
 
     def create(self, validated_data):
-
-        user = User.objects.create_user(
-            username=validated_data['username'],
-            email=validated_data.get('email', ''),
-            password=validated_data['password']
-        )
+        user = User.objects.create_user(**validated_data)                       #point to be noted: 'create_user()' function is used to create a user bec it hash the password. normal 'create()' function doesn't hash the password. 
         return user
+
+
+
+# Login Serializer: 
+
+class LoginSerializer(serializers.Serializer):
+    username = serializers.CharField(required = True)                           # they do field-level validation. they check if values are present in the field and do they have text/string type of data in them
+    password = serializers.CharField(required = True)
     
+    def validate(self, attr):                                                   # it does object-level validation. it check if the username and password with the database. 'attr' is a dictionary just like 'validated_data' which stores data that comes form the request. 
+        username = attr.get('username')
+        password = attr.get('password')
     
-    
-
-
-class LoginSerializer(serializers.Serializer):                                      # Using serializers.Serializer here bec. you don't need a model mapping for that. It just take two inputs (username, password) from the user and validate it. It doesn't do the CRUD operation to the model tha's why ModelSerializer is not used here. 
-    username = serializers.CharField(required=True)
-    password = serializers.CharField(required=True, write_only=True)
-
-    def validate(self, data):
-        username = data.get('username')
-        password = data.get('password')
-
-     
-        user = authenticate(username=username, password=password)
-
+        user = authenticate(username = username, password = password)           # return the user object form the database if credential is correct 
         if not user:
-            raise serializers.ValidationError("Incorrect username or password!")
+            raise serializers.ValidationError({"detail":"Invalid username or password. "})
 
-    
-        data['user'] = user
-        return data
+        attr['user'] = user                                                     # this line add a new key to the same dictionary
+        print(attr)                                                             # Output: {'username': 'mike', 'password': 'mike@12345', 'user': <User: mike>}
+        
+        return attr 
+ 
+ 
+ 
+ 

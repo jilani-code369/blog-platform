@@ -12,7 +12,7 @@ class User(AbstractUser):
         ("reader", "Reader"), 
         ("admin", "Admin")
     ]
-    role = models.CharField(max_length=20, choices = ROLE_CHOICES)   # role for role based access/system 
+    role = models.CharField(max_length=20, choices = ROLE_CHOICES, default = "reader")   # role for role based access/system 
 
 
 
