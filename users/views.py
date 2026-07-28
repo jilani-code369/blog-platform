@@ -3,12 +3,14 @@ from rest_framework.response import Response
 from rest_framework import status
 from rest_framework.authtoken.models import Token 
 from rest_framework.permissions import IsAuthenticated
+from drf_spectacular.utils import extend_schema
 
 from .serializers import *
 
 
 
 # Registeration API
+@extend_schema(tags=['Register API'])
 class RegisterAPI(APIView):
     def post(self, request):
         serializer = RegisterSerializer(data = request.data)
@@ -26,7 +28,7 @@ class RegisterAPI(APIView):
         
 
  # Login API:
- 
+@extend_schema(tags=['Login API'])
 class LoginAPI(APIView):
     def post(self, request):
        serializer = LoginSerializer(data = request.data)
@@ -45,6 +47,7 @@ class LoginAPI(APIView):
 
 
 # Logout API
+@extend_schema(tags=['Logout API'])
 class LogoutAPI(APIView):
     permission_classes = [IsAuthenticated]
 

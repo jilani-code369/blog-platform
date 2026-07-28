@@ -5,7 +5,7 @@ from rest_framework import status
 from rest_framework.filters import SearchFilter
 from django_filters.rest_framework import DjangoFilterBackend
 from rest_framework.permissions import IsAdminUser, IsAuthenticated, IsAuthenticatedOrReadOnly
-
+from drf_spectacular.utils import extend_schema
 
 from .models import *
 from .serializers import *
@@ -16,6 +16,7 @@ from .filters import *
 
 
 # Category views
+@extend_schema(tags=['Category API'])
 class CategoryViews(ModelViewSet):
     queryset = Category.objects.all()
     serializer_class = CategorySerializer
@@ -39,6 +40,7 @@ class CategoryViews(ModelViewSet):
 
 
 # Tag views
+@extend_schema(tags=['Tag API'])
 class TagViews(ModelViewSet):
     queryset = Tag.objects.all()
     serializer_class = TagSerializer
@@ -57,6 +59,7 @@ class TagViews(ModelViewSet):
     
     
 # Post views
+@extend_schema(tags=['Post API'])
 class PostViews(ModelViewSet):
     queryset = Post.objects.select_related('category').all()          # 'select_related('field_name')' join the foreign key table to optimize query on the db
     serializer_class = PostSerializer
@@ -75,6 +78,7 @@ class PostViews(ModelViewSet):
     
     
 # Comment views
+@extend_schema(tags=['Comment API'])
 class CommentViews(ModelViewSet):
     queryset = Comment.objects.select_related('post').all()     # 'select_related() is used for optimization
     serializer_class = CommentSerializer
@@ -92,6 +96,7 @@ class CommentViews(ModelViewSet):
     
     
 # PostTag views
+@extend_schema(tags=['PostTag API'])
 class PostTagViews(ModelViewSet):
     queryset = PostTag.objects.all()
     serializer_class = PostTagSerializer
@@ -108,6 +113,7 @@ class PostTagViews(ModelViewSet):
 
 
 # User views
+@extend_schema(tags=['User API'])
 class UserViews(ModelViewSet):
     queryset = User.objects.all()
     serializer_class = UserSerializer
