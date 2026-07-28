@@ -2,8 +2,6 @@ from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework import status
 from rest_framework.authtoken.models import Token 
-from django.contrib.auth import authenticate
-from rest_framework import serializers
 from rest_framework.permissions import IsAuthenticated
 
 from .serializers import *
@@ -20,13 +18,8 @@ class RegisterAPI(APIView):
         
         return Response({
             "message":"Registeration successful. ",
-            "detail": {
-                "id":user.id,
-                "username":user.username,
-                "email":user.email,
-                "password":user.password,
-                "token":token.key
-            }
+            "detail": serializer.data,
+            "token":token.key
             
         }, status = status.HTTP_201_CREATED)
         
@@ -61,3 +54,5 @@ class LogoutAPI(APIView):
         return Response({
             "message": "Logout successful"
         }, status=status.HTTP_200_OK)
+
+

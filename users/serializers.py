@@ -3,13 +3,15 @@ from rest_framework.serializers import ModelSerializer
 from rest_framework import serializers
 from django.contrib.auth import get_user_model
 from django.contrib.auth import authenticate
+from django.contrib.auth.password_validation import validate_password
 
 
-User = get_user_model()
+User = get_user_model()                                                         # it fetches active user model from the project
 
 
 # Register Serializer:
 class RegisterSerializer(ModelSerializer):
+    password = serializers.CharField(write_only = True, validators = [validate_password])    # write_only = True don't send password in the browser but if you explicitely send it in response then it will be displayed there. validator validates using rules of setting.py
     class Meta:
         model = User
         fields = ['id', 'username', 'email', 'password']
@@ -35,7 +37,7 @@ class LoginSerializer(serializers.Serializer):
             raise serializers.ValidationError({"detail":"Invalid username or password. "})
 
         attr['user'] = user                                                     # this line add a new key to the same dictionary
-        print(attr)                                                             # Output: {'username': 'mike', 'password': 'mike@12345', 'user': <User: mike>}
+        # print(attr)                                                           # Output: {'username': 'mike', 'password': 'mike@12345', 'user': <User: mike>}
         
         return attr 
  

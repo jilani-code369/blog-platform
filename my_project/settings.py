@@ -43,6 +43,8 @@ INSTALLED_APPS = [
     'django_filters',
     'debug_toolbar',
     'rest_framework.authtoken',
+    'drf_spectacular',
+
     
     
 ]
@@ -150,15 +152,29 @@ STATIC_URL = 'static/'
 AUTH_USER_MODEL = 'users.User'
 
 
-
+# For debug toolbar
 INTERNAL_IPS = [
     "127.0.0.1",
 ]
 
 
-
+# For global configuration of any package
 REST_FRAMEWORK = {
     'DEFAULT_AUTHENTICATION_CLASSES': [
         'rest_framework.authentication.TokenAuthentication',
-    ]
+    ],
+
+    'DEFAULT_SCHEMA_CLASS': 'drf_spectacular.openapi.AutoSchema',
 }
+
+
+
+# For API documentation
+SPECTACULAR_SETTINGS = {
+    'TITLE': 'Blog Platform API',
+    'DESCRIPTION': 'Blog Platform API',
+    'VERSION': '1.0.0',
+    'SERVE_INCLUDE_SCHEMA': False,
+    # OTHER SETTINGS
+} 
+
