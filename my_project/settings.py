@@ -44,6 +44,9 @@ INSTALLED_APPS = [
     'debug_toolbar',
     'rest_framework.authtoken',
     'drf_spectacular',
+    'corsheaders',
+
+
 
     
     
@@ -52,6 +55,7 @@ INSTALLED_APPS = [
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
+    "corsheaders.middleware.CorsMiddleware",
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
@@ -177,4 +181,21 @@ SPECTACULAR_SETTINGS = {
     'SERVE_INCLUDE_SCHEMA': False,
     # OTHER SETTINGS
 } 
+
+
+
+# For CORS header
+CORS_ALLOW_ALL_ORIGINS = True
+
+
+
+# Email Setup (smtp) 
+EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+EMAIL_PORT = 587
+EMAIL_USE_TLS = True  
+EMAIL_HOST = 'smtp.gmail.com'
+EMAIL_HOST_USER = 'nadafjilani182@gmail.com'
+EMAIL_HOST_PASSWORD = 'jspfkrwtcuvjucfs' 
+
+
 

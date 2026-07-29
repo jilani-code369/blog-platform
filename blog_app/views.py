@@ -34,9 +34,12 @@ class CategoryViews(ModelViewSet):
     #override 'destroy()' method to handle deletion of protected relationship
     def destroy(self, request, *args, **kwargs):
         category = self.get_object()
-        if PostTag.objects.filter(post__category = category).exists():
+        if Post.objects.filter(category = category).exists():
             return Response({"error":"Protected! Category cannot be deleted. Related to PostTag model."}, status = status.HTTP_400_BAD_REQUEST)
+        category.delete()
         return Response({"detail":"Category deleted successfully."}, status = status.HTTP_204_NO_CONTENT)
+    
+ 
 
 
 # Tag views
@@ -72,7 +75,7 @@ class PostViews(ModelViewSet):
     search_fields = ['title']
     filterset_class = PostFilter
     
-    #Persmission
+    #Permission
     permission_classes = [IsAuthenticatedOrReadOnly]
     
     
@@ -127,4 +130,5 @@ class UserViews(ModelViewSet):
     
     #Persmission
     permission_classes = [IsAuthenticated]
+    
     

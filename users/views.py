@@ -10,7 +10,7 @@ from .serializers import *
 
 
 # Registeration API
-@extend_schema(tags=['Register API'])
+@extend_schema(tags=['Register API'], request = RegisterSerializer, responses = RegisterSerializer)
 class RegisterAPI(APIView):
     def post(self, request):
         serializer = RegisterSerializer(data = request.data)
@@ -28,7 +28,7 @@ class RegisterAPI(APIView):
         
 
  # Login API:
-@extend_schema(tags=['Login API'])
+@extend_schema(tags=['Login API'], request = LoginSerializer, responses = LoginSerializer)
 class LoginAPI(APIView):
     def post(self, request):
        serializer = LoginSerializer(data = request.data)
