@@ -10,7 +10,7 @@ router.register('tag', TagViews)
 router.register('post', PostViews)
 router.register('comment', CommentViews)
 router.register('post-tag', PostTagViews)
-router.register('user', UserViews)
+router.register('manage-user', UserViews)
 
 
 urlpatterns = [
